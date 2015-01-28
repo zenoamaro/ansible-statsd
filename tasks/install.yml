@@ -1,0 +1,21 @@
+---
+
+- name: "Clone StatsD {{statsd_version}} from repo"
+  sudo: yes
+  git:
+    repo: "{{statsd_git_repository}}"
+    dest: "{{statsd_install_path}}"
+  tags:
+    - deps
+    - statsd
+    - monitoring
+
+- name: "Install NPM dependencies"
+  sudo: yes
+  npm:
+    path: "{{statsd_install_path}}"
+    production: yes
+  tags:
+    - deps
+    - statsd
+    - monitoring
