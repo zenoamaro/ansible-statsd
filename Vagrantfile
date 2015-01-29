@@ -19,11 +19,9 @@ Vagrant.configure '2' do |config|
 			ansible.playbook       = './boxed.yml'
 			ansible.inventory_path = './inventory'
 		end
-		# Forward admin and api ports on the host.
-		config.vm.network :forwarded_port, guest: 8083, host: 18083
-		config.vm.network :forwarded_port, guest: 8084, host: 18084
-		config.vm.network :forwarded_port, guest: 8086, host: 18086
-		# TODO: What about also forwarding the data?
+		# Forward api and mgmt ports on the host.
+		config.vm.network :forwarded_port, guest: 8125, host: 18125
+		config.vm.network :forwarded_port, guest: 8126, host: 18126
 	end
 
 
