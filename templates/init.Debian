@@ -84,7 +84,6 @@ do_start()
 		--startas $DAEMON \
 		--chuid $USER:$GROUP \
 		--background \
-		--no-close \
 		--chdir $CHDIR -- \
 		$DAEMON_ARGS >> "$LOGFILE" 2> "$ERRLOGFILE" \
 		|| return 2
