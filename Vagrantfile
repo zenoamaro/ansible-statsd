@@ -20,8 +20,8 @@ Vagrant.configure '2' do |config|
 			ansible.inventory_path = './inventory'
 		end
 		# Forward api and mgmt ports on the host.
-		config.vm.network :forwarded_port, guest: 8125, host: 18125
-		config.vm.network :forwarded_port, guest: 8126, host: 18126
+		config.vm.network :forwarded_port, guest:8125, host:18125, protocol:'udp'
+		config.vm.network :forwarded_port, guest:8126, host:18126
 	end
 
 

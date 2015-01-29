@@ -46,13 +46,13 @@ statsd_dump_messages: "{{'true' if statsd_debug else ''}}"
 #     "./servers/tcp"
 statsd_server:
 # Address to listen on
-statsd_address: "127.0.0.1"
+statsd_address: 127.0.0.1
 # Defines if the address is an IPv4 or IPv6 address
 statsd_address_ipv6: no
 # Port to listen for messages on
 statsd_port: 8125
 # Address to run the management TCP interface on
-statsd_mgmt_address: "127.0.0.1"
+statsd_mgmt_address: 127.0.0.1
 # Port to run the management TCP interface on
 statsd_mgmt_port: 8126
 

@@ -19,6 +19,13 @@
         - nodejs-legacy
         - npm
 
+  vars:
+    # Configure your StatsD here
+    statsd_address: 0.0.0.0
+    statsd_mgmt_address: 0.0.0.0
+    statsd_graphite_host:
+    statsd_graphite_port:
+
   roles:
     - '.'    # This role itself
 
