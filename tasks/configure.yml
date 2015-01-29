@@ -1,6 +1,7 @@
 ---
 
 - name: Create user and group for StatsD
+  sudo: yes
   user:
     createhome: no
     name: "{{statsd_user}}"
