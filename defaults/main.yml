@@ -32,6 +32,8 @@ statsd_health_status: up
 # Set debug flag and leave these unset to run in 'dry' debug mode -
 # useful for testing statsd clients without a Graphite server.
 statsd_debug: no
+# Log all incoming messages
+statsd_dump_messages: "{{'true' if statsd_debug else ''}}"
 
 
 # Server
@@ -43,13 +45,13 @@ statsd_debug: no
 #     "./servers/tcp"
 statsd_server:
 # Address to listen on
-statsd_address: 0.0.0.0
+statsd_address: "127.0.0.1"
 # Defines if the address is an IPv4 or IPv6 address
 statsd_address_ipv6: no
 # Port to listen for messages on
 statsd_port: 8125
 # Address to run the management TCP interface on
-statsd_mgmt_address: 0.0.0.0
+statsd_mgmt_address: "127.0.0.1"
 # Port to run the management TCP interface on
 statsd_mgmt_port: 8126
 
@@ -57,13 +59,13 @@ statsd_mgmt_port: 8126
 # Flush and counts
 # ----------------
 # Interval to flush metrics to each backend (ms)
-statsd_flush_interval: 1000
+statsd_flush_interval: 5000
 # For time information, calculate the Nth percentile(s) (can be a single
 # value or list of floating-point values). Negative values mean to use
 # "top" Nth percentile(s) values. (%)
 statsd_percent_threshold: 90
 # Send stats_counts metrics
-statsd_flush_counts: yes
+statsd_flush_counts: no
 
 
 # Backends
@@ -110,27 +112,27 @@ statsd_key_flush_interval: 0
 statsd_key_flush_percent: 100
 # Location of log file for frequent keys
 statsd_key_flush_log: STDOUT
-# Don't send values to graphite for inactive counters, sets, gauges, or
-# timers As opposed to sending 0.  For gauges, this unsets the gauge
-# (instead of sending The previous value). Can be individually
-# overriden.
-statsd_key_flush_delete_idle_stats: no
 
 
 # Inactive values
 # ---------------
+# Don't send values to graphite for inactive counters, sets, gauges, or
+# timers As opposed to sending 0.  For gauges, this unsets the gauge
+# (instead of sending The previous value). Can be individually
+# overriden.
+statsd_key_flush_delete_idle_stats: yes
 # Don't send values to graphite for inactive gauges, as opposed to
 # sending the previous value
-statsd_delete_gauges: no
+statsd_delete_gauges: yes
 # Don't send values to graphite for inactive timers, as opposed to
 # sending `0`
-statsd_delete_timers: no
+statsd_delete_timers: yes
 # Don't send values to graphite for inactive sets, as opposed to sending
 # `0`
-statsd_delete_sets: no
+statsd_delete_sets: yes
 # Don't send values to graphite for inactive counters, as opposed to
 # sending `0`
-statsd_delete_counters: no
+statsd_delete_counters: yes
 # Prefix to use for the statsd statistics data for this running instance
 # of statsd applies to both legacy and new namespacing
 statsd_prefix_stats: "{{statsd_title}}"
@@ -144,8 +146,6 @@ statsd_console_prettyprint: yes
 
 # Log settings
 # ------------
-# Log all incoming messages
-statsd_dump_messages: no
 # Where to log: stdout or syslog
 statsd_log_backend: stdout
 # Name of the application for syslog
@@ -198,4 +198,10 @@ statsd_histogram: []
 # Auto-reload
 # -----------
 # Whether to watch the config file and reload it when it changes.
-statsd_automatic_config_reload: yes
+statsd_automatic_config_reload: no
+
+
+# Additional packages
+# -------------------
+statsd_extra_packages: []
+statds_extra_conf: {}

@@ -27,9 +27,6 @@ debug: {{'true' if statsd_debug else 'false'}},
 // ------
 // The server to load. The server must exist by name in the directory
 // `servers/`. If not specified, the default udp server will be loaded.
-//
-// Example for tcp server:
-//     "./servers/tcp"
 server: {% if statsd_server %}'{{statsd_server}}'{% else %}undefined{% endif %},
 // Address to listen on
 address: '{{statsd_address}}',
@@ -60,9 +57,6 @@ flush_counts: {{'true' if statsd_flush_counts else 'false'}},
 // // An array of backends to load. Each backend must exist by name in the
 // directory backends/. If not specified, the default graphite backend
 // will be loaded.
-//
-// Example for console and graphite:
-//     [ "./backends/console", "./backends/graphite" ]
 backends: [
 {% for backend in statsd_backends %}
 	'{{backend}}',
@@ -107,16 +101,16 @@ keyFlush: {
 	percent: {{statsd_key_flush_percent}},
 	// Location of log file for frequent keys
 	log: '{{statsd_key_flush_log}}',
-	// Don't send values to graphite for inactive counters, sets, gauges, or
-	// timers As opposed to sending 0.  For gauges, this unsets the gauge
-	// (instead of sending The previous value). Can be individually
-	// overriden.
-	deleteIdleStats: {{'true' if statsd_key_flush_delete_idle_stats else 'false'}},
 },
 
 
 // Inactive values
 // ---------------
+// Don't send values to graphite for inactive counters, sets, gauges, or
+// timers As opposed to sending 0.  For gauges, this unsets the gauge
+// (instead of sending The previous value). Can be individually
+// overriden.
+deleteIdleStats: {{'true' if statsd_key_flush_delete_idle_stats else 'false'}},
 // Don't send values to graphite for inactive gauges, as opposed to
 // sending the previous value
 deleteGauges: {{'true' if statsd_delete_gauges else 'false'}},
@@ -131,7 +125,7 @@ deleteSets: {{'true' if statsd_delete_sets else 'false'}},
 deleteCounters: {{'true' if statsd_delete_counters else 'false'}},
 // Prefix to use for the statsd statistics data for this running instance
 // of statsd applies to both legacy and new namespacing
-prefixStats: {{'true' if statsd_prefix_stats else 'false'}},
+prefixStats: '{{statsd_prefix_stats}}',
 
 
 // Console settings
@@ -162,10 +156,6 @@ log: {
 // An array of hashes of the for `host:` and `port:` that details other
 // statsd servers to which the received packets should be "repeated"
 // (duplicated to).
-//
-// Example:
-//     [ { host: '10.10.10.10', port: 8125 },
-//       { host: 'observer', port: 88125 } ]
 repeater: [
 {% for repeater in statsd_repeater %}
 	{ host:'{{repeater.host}}', port:{{repeater.port}} },
@@ -181,21 +171,6 @@ repeaterProtocol: '{{statsd_repeater_protocol}}',
 // corresponding ordered non-inclusive upper limits of bins. For all
 // matching metrics, histograms are maintained over time by writing the
 // frequencies for all bins.
-//
-// 'inf' means infinity. A lower limit of 0 is assumed.
-//
-// Default: [], meaning no histograms for any timer.
-//
-// First match wins. Examples:
-//
-// * histogram to only track render durations, with unequal
-//   class intervals and catchall for outliers:
-//     [ { metric: 'render', bins: [ 0.01, 0.1, 1, 10, 'inf'] } ]
-//
-// * histogram for all timers except 'foo' related,
-//   equal class interval and catchall for outliers:
-//     [ { metric: 'foo', bins: [] },
-//       { metric: '', bins: [ 50, 100, 150, 200, 'inf'] } ]
 histogram: [
 {% for histogram in statsd_histogram %}
 	{ metric:'{{histogram.metric}}', bins:[
@@ -208,6 +183,17 @@ histogram: [
 // Auto-reload
 // -----------
 // Whether to watch the config file and reload it when it changes.
-automaticConfigReload: {{'true' if statsd_automatic_config_reload else 'false'}}
+automaticConfigReload: {{'true' if statsd_automatic_config_reload else 'false'}},
+
+
+// Additional packages
+// -------------------
+{% for key, value in statsd_extra_conf.items() %}
+"{{key}}": {
+{% for key, value in value.items() %}
+	"{{key}}": {{value}},
+{% endfor %}
+}
+{% endfor %}
 
 }

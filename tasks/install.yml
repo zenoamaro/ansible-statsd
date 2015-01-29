@@ -19,3 +19,15 @@
     - deps
     - statsd
     - monitoring
+
+- name: "Install extra packages"
+  sudo: yes
+  npm:
+    name: "{{item}}"
+    path: "{{statsd_install_path}}"
+    production: yes
+  with_items: statsd_extra_packages
+  tags:
+    - deps
+    - statsd
+    - monitoring
