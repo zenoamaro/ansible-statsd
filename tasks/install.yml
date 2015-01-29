@@ -4,12 +4,14 @@
   get_url:
     url: "{{statsd_package_url}}"
     dest: "/tmp/{{statsd_package}}.tar.gz"
+  register: statsd_release
   tags:
     - deps
     - statsd
     - monitoring
 
 - name: Extract StatsD from the tarball
+  when: statsd_release|changed
   unarchive:
     copy: no
     src: "/tmp/{{statsd_package}}.tar.gz"
@@ -21,6 +23,7 @@
     - monitoring
 
 - name: Install StatsD
+  when: statsd_release|changed
   sudo: yes
   command: "rsync -av --delete '/tmp/{{statsd_package}}/' '{{statsd_install_dir}}'"
   tags:
