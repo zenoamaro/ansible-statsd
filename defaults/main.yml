@@ -205,4 +205,4 @@ statsd_automatic_config_reload: no
 # Additional packages
 # -------------------
 statsd_extra_packages: []
-statds_extra_conf: {}
+statsd_extra_conf: {}
