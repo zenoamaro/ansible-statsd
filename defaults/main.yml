@@ -14,8 +14,9 @@ statsd_conf_dir: "/etc/{{statsd_service_name}}"
 statsd_conf_file: "{{statsd_conf_dir}}/config.js"
 
 statsd_version: 0.7.2
-statsd_git_repository: https://github.com/etsy/statsd.git
-statsd_install_path: "/usr/local/{{statsd_service_name}}"
+statsd_package: "statsd-{{statsd_version}}"
+statsd_package_url: "https://github.com/etsy/statsd/archive/v{{statsd_version}}.tar.gz"
+statsd_install_dir: "/usr/local/{{statsd_service_name}}"
 
 statsd_run_dir: "/var/run/{{statsd_service_name}}"
 statsd_pid_file: "{{statsd_run_dir}}/{{statsd_service_name}}.pid"

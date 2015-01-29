@@ -1,10 +1,28 @@
 ---
 
-- name: "Clone StatsD {{statsd_version}} from repo"
+- name: Download the StatsD release tarball
+  get_url:
+    url: "{{statsd_package_url}}"
+    dest: "/tmp/{{statsd_package}}.tar.gz"
+  tags:
+    - deps
+    - statsd
+    - monitoring
+
+- name: Extract StatsD from the tarball
+  unarchive:
+    copy: no
+    src: "/tmp/{{statsd_package}}.tar.gz"
+    dest: "/tmp"
+    creates: "/tmp/{{statsd_package}}/package.json"
+  tags:
+    - deps
+    - statsd
+    - monitoring
+
+- name: Install StatsD
   sudo: yes
-  git:
-    repo: "{{statsd_git_repository}}"
-    dest: "{{statsd_install_path}}"
+  command: "rsync -av --delete '/tmp/{{statsd_package}}/' '{{statsd_install_dir}}'"
   tags:
     - deps
     - statsd
@@ -13,7 +31,7 @@
 - name: "Install NPM dependencies"
   sudo: yes
   npm:
-    path: "{{statsd_install_path}}"
+    path: "{{statsd_install_dir}}"
     production: yes
   tags:
     - deps
@@ -24,7 +42,7 @@
   sudo: yes
   npm:
     name: "{{item}}"
-    path: "{{statsd_install_path}}"
+    path: "{{statsd_install_dir}}"
     production: yes
   with_items: statsd_extra_packages
   tags:
