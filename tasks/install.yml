@@ -31,10 +31,11 @@
     - statsd
     - monitoring
 
-- name: "Install NPM dependencies"
+- name: "Update NPM dependencies"
   sudo: yes
   npm:
     path: "{{statsd_install_dir}}"
+    state: latest
     production: yes
   tags:
     - deps
@@ -46,6 +47,7 @@
   npm:
     name: "{{item}}"
     path: "{{statsd_install_dir}}"
+    latest: yes
     production: yes
   with_items: statsd_extra_packages
   tags:
