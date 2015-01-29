@@ -11,6 +11,13 @@
       sudo: yes
       when: ansible_os_family == 'Debian'
       apt: update_cache=yes cache_valid_time=3600
+    - name: Install Node.js
+      sudo: yes
+      when: ansible_os_family == 'Debian'
+      apt: "name={{item}} state=installed"
+      with_items:
+        - nodejs-legacy
+        - npm
 
   roles:
     - '.'    # This role itself
