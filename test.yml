@@ -16,14 +16,30 @@
 
   hosts: test
 
-  vars:
-    # custom_configuration: value
-
   pre_tasks:
+
     - name: APT update
       sudo: yes
       when: ansible_os_family == 'Debian'
       apt: update_cache=yes cache_valid_time=3600
+
+    - name: Install Node.js
+      sudo: yes
+      when: ansible_os_family == 'Debian'
+      apt: "name={{item}} state=installed"
+      with_items:
+        - nodejs
+        - npm
+    - name: Install Node.js
+      sudo: yes
+      when: ansible_os_family == 'RedHat'
+      yum: "name={{item}} state=installed"
+      with_items:
+        - nodejs
+        - npm
+    - name: Symlink Node.js
+      sudo: yes
+      file: src=/usr/bin/node dest=/usr/bin/nodejs state=link
 
   roles:
     - '.'    # The current directory itself is the role
