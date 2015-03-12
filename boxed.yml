@@ -1,6 +1,11 @@
 ---
 
-# Simple, straight playbook for boxed StatsD installs
+# Boxed installation playbook
+# ---------------------------
+
+# A Simple, straight playbook for producing
+# a boxed installation in a vagrant VM.
+
 
 - name: 'StatsD boxed installation'
 
