@@ -47,7 +47,7 @@
   npm:
     name: "{{item}}"
     path: "{{statsd_install_dir}}"
-    latest: yes
+    state: latest
     production: yes
   with_items: statsd_extra_packages
   tags:
