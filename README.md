@@ -66,6 +66,9 @@ Still to do
 
 Changelog
 ---------
+### 0.1.2
+- Corrected invocation of npm install for `state=latest`
+
 ### 0.1.1
 - The package list is not being updated in playbooks anymore.
 - VMs are not autostarted anymore.
@@ -79,7 +82,7 @@ License
 -------
 The MIT License (MIT)
 
-Copyright (c) 2015, zenoamaro <zenoamaro@gmail.com>
+Copyright (c) 2016, zenoamaro <zenoamaro@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
